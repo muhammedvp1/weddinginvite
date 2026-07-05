@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(brew install *)",
+      "Bash(npm install *)",
+      "Bash(uipro init *)",
+      "Read(//Users/muhammedvadakkeparammal/.claude/skills/**)",
+      "Read(//Users/muhammedvadakkeparammal/.claude/skills/ui-ux-pro-max/**)",
+      "Bash(python3 ~/.claude/skills/ui-ux-pro-max/scripts/search.py \"luxury wedding invitation romantic elegant script serif floral\" --design-system -p \"Wedding Invitation\" --motion 8 --variance 5)",
+      "Bash(python3 ~/.claude/skills/ui-ux-pro-max/scripts/search.py \"sage green cream burgundy elegant wedding luxury\" --domain color)",
+      "Bash(python3 ~/.claude/skills/ui-ux-pro-max/scripts/search.py \"reveal curtain unfold stagger scroll hero\" --domain gsap)",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}

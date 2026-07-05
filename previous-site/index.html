@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diana &amp; Richard — Save the Date</title>
+<meta name="description" content="You are cordially invited to the wedding of Diana & Richard, 23 July 2026, The Peninsula Hotel Istanbul.">
+
+<!-- Fonts: elegant script + refined serif, matching the reference mood board -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Decorative fixed picture-frame border, echoes the bordered mockup in the reference -->
+<div class="page-frame" aria-hidden="true"></div>
+
+<!-- ============ SOUND TOGGLE (persists across whole experience) ============ -->
+<button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" aria-label="Play background music">
+  <svg class="icon-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"/><line x1="17" y1="9" x2="22" y2="15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="22" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <svg class="icon-unmute" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.8 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+</button>
+<audio id="bgAudio" loop preload="none">
+  <!-- Add your own royalty-free ambient track here, e.g. assets/audio/ambience.mp3 -->
+  <source src="assets/audio/ambience.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ============ LANGUAGE TOGGLE (persists once invitation is open) ============ -->
+<div class="lang-toggle" id="langToggle" role="group" aria-label="Language">
+  <button type="button" class="lang-btn is-active" data-lang="en">EN</button>
+  <button type="button" class="lang-btn" data-lang="de">DE</button>
+</div>
+
+<!-- ================================================================
+     GATE — Screen 1: closed envelope with wax seal
+     ================================================================ -->
+<div class="gate" id="gate">
+  <div class="gate-paper" aria-hidden="true"></div>
+  <div class="gate-inner">
+    <button type="button" class="envelope" id="envelopeBtn" aria-label="Open your wedding invitation">
+      <span class="envelope-shadow" aria-hidden="true"></span>
+      <span class="envelope-body" aria-hidden="true">
+        <svg class="envelope-fold" viewBox="0 0 300 190" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 0 L150 120 L300 0" fill="none" stroke="var(--color-border)" stroke-width="1.5"/>
+        </svg>
+      </span>
+      <span class="envelope-flap" id="envelopeFlap" aria-hidden="true"></span>
+
+      <span class="wax-seal" id="waxSeal" aria-hidden="true">
+        <svg viewBox="0 0 120 120" class="wax-seal-half wax-seal-half--left">
+          <defs>
+            <clipPath id="clipLeft"><rect x="0" y="0" width="60" height="120"/></clipPath>
+          </defs>
+          <g clip-path="url(#clipLeft)">
+            <circle cx="60" cy="60" r="52" class="wax-fill"/>
+            <text x="60" y="76" text-anchor="middle" class="wax-monogram">D&amp;R</text>
+            <circle cx="60" cy="60" r="52" class="wax-ring"/>
+          </g>
+        </svg>
+        <svg viewBox="0 0 120 120" class="wax-seal-half wax-seal-half--right">
+          <defs>
+            <clipPath id="clipRight"><rect x="60" y="0" width="60" height="120"/></clipPath>
+          </defs>
+          <g clip-path="url(#clipRight)">
+            <circle cx="60" cy="60" r="52" class="wax-fill"/>
+            <text x="60" y="76" text-anchor="middle" class="wax-monogram">D&amp;R</text>
+            <circle cx="60" cy="60" r="52" class="wax-ring"/>
+          </g>
+        </svg>
+      </span>
+
+      <span class="gate-caption" data-i18n="gate.caption">Requests the pleasure<br>of your company</span>
+    </button>
+    <p class="gate-hint" data-i18n="gate.hint">Tap the seal to open</p>
+  </div>
+</div>
+
+<!-- ================================================================
+     CURTAIN STAGE — Screen 2: floral arch + ribbon bow untying
+     ================================================================ -->
+<div class="curtain-stage" id="curtainStage" aria-hidden="true">
+  <div class="curtain-panel curtain-panel--left" id="curtainLeft">
+    <svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMin slice" class="floral-arch">
+      <use href="#floralCluster" x="40" y="0" transform="scale(1.3)"/>
+      <use href="#floralCluster" x="0" y="120" transform="scale(0.8)"/>
+    </svg>
+  </div>
+  <div class="curtain-panel curtain-panel--right" id="curtainRight">
+    <svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMin slice" class="floral-arch">
+      <use href="#floralCluster" x="-140" y="0" transform="scale(1.3)"/>
+      <use href="#floralCluster" x="-100" y="120" transform="scale(0.8)"/>
+    </svg>
+  </div>
+  <div class="ribbon-bow" id="ribbonBow" aria-hidden="true">
+    <svg viewBox="0 0 220 140" class="ribbon-svg">
+      <g id="ribbonLoopLeft" class="ribbon-loop ribbon-loop--left">
+        <path d="M100 70 C 40 10, 10 30, 15 70 C 10 110, 40 130, 100 70 Z" class="ribbon-fill"/>
+        <path d="M100 70 C 40 10, 10 30, 15 70 C 10 110, 40 130, 100 70 Z" class="ribbon-shade"/>
+      </g>
+      <g id="ribbonLoopRight" class="ribbon-loop ribbon-loop--right">
+        <path d="M120 70 C 180 10, 210 30, 205 70 C 210 110, 180 130, 120 70 Z" class="ribbon-fill"/>
+        <path d="M120 70 C 180 10, 210 30, 205 70 C 210 110, 180 130, 120 70 Z" class="ribbon-shade"/>
+      </g>
+      <g id="ribbonTails" class="ribbon-tails">
+        <path d="M100 78 L82 138 L100 128 L118 138 Z" class="ribbon-fill"/>
+        <path d="M120 78 L138 138 L120 128 L102 138 Z" class="ribbon-fill"/>
+      </g>
+      <rect x="98" y="58" width="24" height="24" rx="4" class="ribbon-knot"/>
+    </svg>
+  </div>
+</div>
+
+<!-- Reusable floral cluster symbol, referenced via <use> throughout the site -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="floralCluster" viewBox="0 0 160 160">
+    <g class="floral-leaf">
+      <path d="M80 150 C 60 110, 60 70, 80 20 C 100 70, 100 110, 80 150 Z"/>
+    </g>
+    <g class="floral-petal">
+      <circle cx="55" cy="55" r="16"/>
+      <circle cx="80" cy="40" r="18"/>
+      <circle cx="108" cy="55" r="16"/>
+      <circle cx="65" cy="80" r="13"/>
+      <circle cx="95" cy="80" r="13"/>
+    </g>
+    <g class="floral-petal floral-petal--alt">
+      <circle cx="40" cy="90" r="11"/>
+      <circle cx="120" cy="90" r="11"/>
+      <circle cx="80" cy="105" r="12"/>
+    </g>
+  </symbol>
+  <symbol id="yachtIcon" viewBox="0 0 96 64">
+    <path d="M8 44 L88 44 L78 56 L18 56 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M24 44 L24 16 L54 44 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="24" y1="16" x2="24" y2="8" stroke="currentColor" stroke-width="2"/>
+    <line x1="4" y1="44" x2="92" y2="44" stroke="currentColor" stroke-width="2"/>
+  </symbol>
+  <symbol id="hotelIcon" viewBox="0 0 96 72">
+    <rect x="16" y="20" width="64" height="46" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M10 20 L48 4 L86 20" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="32" y1="32" x2="32" y2="56" stroke="currentColor" stroke-width="1.6"/>
+    <line x1="48" y1="32" x2="48" y2="56" stroke="currentColor" stroke-width="1.6"/>
+    <line x1="64" y1="32" x2="64" y2="56" stroke="currentColor" stroke-width="1.6"/>
+  </symbol>
+  <symbol id="columnIcon" viewBox="0 0 60 260">
+    <rect x="10" y="0" width="40" height="14"/>
+    <rect x="18" y="14" width="24" height="230"/>
+    <rect x="10" y="244" width="40" height="16"/>
+    <line x1="24" y1="20" x2="24" y2="238" stroke="var(--color-background)" stroke-width="1.5"/>
+    <line x1="30" y1="20" x2="30" y2="238" stroke="var(--color-background)" stroke-width="1.5"/>
+    <line x1="36" y1="20" x2="36" y2="238" stroke="var(--color-background)" stroke-width="1.5"/>
+  </symbol>
+  <symbol id="monogramMark" viewBox="0 0 140 140">
+    <circle cx="70" cy="70" r="66" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <circle cx="70" cy="70" r="58" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="70" y="90" text-anchor="middle" class="monogram-text">D&amp;R</text>
+  </symbol>
+</svg>
+
+<!-- ================================================================
+     MAIN SITE — revealed after gate + curtain animation
+     ================================================================ -->
+<main class="site" id="site" aria-hidden="true" inert>
+
+  <!-- Screen 3: Hero invitation -->
+  <section class="hero" id="hero">
+    <div class="hero-arch" aria-hidden="true">
+      <svg viewBox="0 0 400 160" preserveAspectRatio="none" class="floral-arch floral-arch--top">
+        <use href="#floralCluster" x="-20" y="-40" transform="scale(1.1)"/>
+        <use href="#floralCluster" x="260" y="-40" transform="scale(1.1)"/>
+      </svg>
+    </div>
+
+    <svg class="monogram" viewBox="0 0 140 140" aria-hidden="true">
+      <use href="#monogramMark"/>
+    </svg>
+
+    <h1 class="names" data-i18n="hero.names">Diana &amp; Richard</h1>
+
+    <p class="request-line" data-i18n="hero.request1">We request the pleasure of your company</p>
+    <p class="request-line" data-i18n="hero.request2">to celebrate our wedding on</p>
+
+    <div class="date-block">
+      <span class="date-line" aria-hidden="true"></span>
+      <span class="date-month" data-i18n="hero.month">JULY</span>
+      <span class="date-day">23</span>
+      <span class="date-year">2026</span>
+      <span class="date-line" aria-hidden="true"></span>
+    </div>
+    <p class="weekday" data-i18n="hero.weekday">THURSDAY</p>
+
+    <p class="held-at" data-i18n="hero.heldAt">TO BE HELD AT</p>
+    <p class="venue-name" data-i18n="hero.venue">The Peninsula Hotel Istanbul</p>
+    <p class="held-time" data-i18n="hero.time">AT SIX O&rsquo;CLOCK IN THE EVENING</p>
+
+    <div class="hero-scene" aria-hidden="true">
+      <svg viewBox="0 0 400 120" preserveAspectRatio="none" class="hero-water">
+        <path d="M0 60 Q 100 30 200 55 T 400 50 V120 H0 Z" class="water-fill"/>
+        <use href="#yachtIcon" x="150" y="20" width="90" height="60" class="hero-boat"/>
+      </svg>
+    </div>
+
+    <button type="button" class="scroll-hint" id="scrollHint">
+      <span data-i18n="hero.scrollHint">Keep scrolling &amp; RSVP</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </section>
+
+  <!-- Screen 4: Countdown -->
+  <section class="countdown-section" id="countdownSection">
+    <svg class="column column--left" aria-hidden="true"><use href="#columnIcon"/></svg>
+    <svg class="column column--right" aria-hidden="true"><use href="#columnIcon"/></svg>
+
+    <div class="countdown-inner reveal-group">
+      <h2 class="script-title reveal-item" data-i18n="countdown.title">Countdown</h2>
+      <p class="tracked-caption reveal-item" data-i18n="countdown.subtitle">UNTIL 23 JULY 2026</p>
+
+      <div class="countdown-timer reveal-item" id="countdownTimer" aria-live="polite">
+        <div class="countdown-unit">
+          <span class="countdown-value" data-unit="days">00</span>
+          <span class="countdown-label" data-i18n="countdown.days">DAYS</span>
+        </div>
+        <span class="countdown-sep">|</span>
+        <div class="countdown-unit">
+          <span class="countdown-value" data-unit="hours">00</span>
+          <span class="countdown-label" data-i18n="countdown.hours">HOURS</span>
+        </div>
+        <span class="countdown-sep">|</span>
+        <div class="countdown-unit">
+          <span class="countdown-value" data-unit="minutes">00</span>
+          <span class="countdown-label" data-i18n="countdown.minutes">MINUTES</span>
+        </div>
+        <span class="countdown-sep countdown-sep--desktop">|</span>
+        <div class="countdown-unit countdown-unit--desktop">
+          <span class="countdown-value" data-unit="seconds">00</span>
+          <span class="countdown-label" data-i18n="countdown.seconds">SECONDS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 5 & 6: The Celebrations — itinerary cards -->
+  <section class="celebrations" id="celebrations">
+    <h2 class="script-title reveal-item" data-i18n="celebrations.title">The Celebrations</h2>
+
+    <article class="event-card reveal-item">
+      <svg class="event-icon" viewBox="0 0 96 64" aria-hidden="true"><use href="#yachtIcon"/></svg>
+      <p class="event-label" data-i18n="event1.label">Welcome Cruise on the Bosphorus</p>
+      <p class="event-venue" data-i18n="event1.venue1">The Peninsula</p>
+      <p class="event-venue event-venue--sub" data-i18n="event1.venue2">Private Quay</p>
+      <p class="event-desc" data-i18n="event1.desc">Departing from The Peninsula Private Quay</p>
+      <span class="event-divider" aria-hidden="true"></span>
+      <p class="event-date" data-i18n="event1.date">22 July 2026</p>
+      <p class="event-time" data-i18n="event1.time">6:30 P.M.</p>
+      <a class="event-map" href="https://maps.google.com/?q=The+Peninsula+Istanbul" target="_blank" rel="noopener" data-i18n="event1.map">View on Map</a>
+    </article>
+
+    <article class="event-card reveal-item">
+      <svg class="event-icon" viewBox="0 0 96 72" aria-hidden="true"><use href="#hotelIcon"/></svg>
+      <p class="event-label" data-i18n="event2.label">Wedding</p>
+      <p class="event-venue" data-i18n="event2.venue1">The Peninsula</p>
+      <p class="event-venue event-venue--sub" data-i18n="event2.venue2">Hotel Istanbul</p>
+      <p class="event-desc" data-i18n="event2.desc">Ceremony &amp; reception overlooking the Bosphorus</p>
+      <span class="event-divider" aria-hidden="true"></span>
+      <p class="event-date" data-i18n="event2.date">23 July 2026</p>
+      <p class="event-time" data-i18n="event2.time">6:00 P.M.</p>
+      <a class="event-map" href="https://maps.google.com/?q=The+Peninsula+Istanbul" target="_blank" rel="noopener" data-i18n="event2.map">View on Map</a>
+    </article>
+  </section>
+
+  <!-- RSVP -->
+  <section class="rsvp-section" id="rsvpSection">
+    <h2 class="script-title reveal-item" data-i18n="rsvp.title">RSVP</h2>
+    <p class="tracked-caption reveal-item" data-i18n="rsvp.subtitle">Kindly respond by 1 June 2026</p>
+
+    <form class="rsvp-form reveal-item" id="rsvpForm" novalidate>
+      <label class="field">
+        <span data-i18n="rsvp.nameLabel">Full name</span>
+        <input type="text" name="name" required autocomplete="name">
+      </label>
+
+      <fieldset class="field field--radio">
+        <legend data-i18n="rsvp.attendingLabel">Will you be attending?</legend>
+        <label><input type="radio" name="attending" value="yes" checked> <span data-i18n="rsvp.yes">Joyfully yes</span></label>
+        <label><input type="radio" name="attending" value="no"> <span data-i18n="rsvp.no">Regretfully no</span></label>
+      </fieldset>
+
+      <label class="field">
+        <span data-i18n="rsvp.guestsLabel">Number of guests</span>
+        <input type="number" name="guests" min="1" max="6" value="1" inputmode="numeric">
+      </label>
+
+      <label class="field">
+        <span data-i18n="rsvp.messageLabel">Message for the couple (optional)</span>
+        <textarea name="message" rows="3"></textarea>
+      </label>
+
+      <button type="submit" class="submit-btn" data-i18n="rsvp.submit">Send RSVP</button>
+    </form>
+
+    <div class="rsvp-thanks" id="rsvpThanks" role="status" hidden>
+      <svg viewBox="0 0 140 140" width="48" height="48" aria-hidden="true"><use href="#monogramMark"/></svg>
+      <p data-i18n="rsvp.thanks">Thank you! Your response has been noted with love.</p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <svg class="footer-monogram" viewBox="0 0 140 140" aria-hidden="true"><use href="#monogramMark"/></svg>
+    <p data-i18n="footer.line">With love, Diana &amp; Richard</p>
+  </footer>
+</main>
+
+<script src="js/i18n.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
