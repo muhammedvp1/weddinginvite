@@ -492,6 +492,27 @@ body.locked { overflow: hidden; height: 100dvh; }
   }
   .count-box span { font-size: clamp(1.15rem, 7vw, 1.8rem); }
   .count-box small { font-size: .46rem; letter-spacing: .04em; margin-top: .18rem; }
+
+  /* WELCOME: let the paper grow to contain the text (cover), text flows in with
+     balanced padding so the torn bottom edge sits below the last line */
+  .welcome-paper .paper-bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .welcome-paper .paper-content {
+    position: relative; inset: auto;
+    display: block;
+    padding: clamp(66px, 17vw, 104px) clamp(26px, 7vw, 46px) clamp(52px, 13vw, 84px);
+  }
+  .welcome-paper .script { font-size: clamp(1.65rem, 8.4vw, 2.25rem); line-height: 1.12; }
+  .welcome-paper .lead   { font-size: clamp(.9rem, 3.8vw, 1.05rem); line-height: 1.6; }
+  .bismillah { font-size: clamp(1rem, 4.4vw, 1.35rem); line-height: 1.7; margin-bottom: .5rem; }
+
+  /* THE CELEBRATION: move the timeline block up and tighten the gap under the heading */
+  .schedule-paper { padding-top: clamp(22px, 5vw, 38px); }
+  .schedule-paper .timeline { margin-top: .8rem; }
+  .schedule-paper .timeline-item { padding: .85rem 0; }
 }
 
 /* ── timeline ── */
