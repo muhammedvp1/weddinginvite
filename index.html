@@ -487,14 +487,14 @@ body.locked { overflow: hidden; height: 100dvh; }
 .timeline::before {
   content: "";
   position: absolute;
-  left: calc(clamp(52px, 14vw, 76px) + 27px);
+  left: 27px;
   top: 10px; bottom: 10px;
   width: 1.4px;
   background: linear-gradient(180deg, transparent, var(--gold) 12%, var(--gold) 88%, transparent);
 }
 .timeline-item {
   display: grid;
-  grid-template-columns: clamp(52px, 14vw, 76px) 56px 1fr;
+  grid-template-columns: 56px 1fr;
   align-items: center;
   padding: 1.1rem 0;
 }
@@ -522,6 +522,10 @@ body.locked { overflow: hidden; height: 100dvh; }
 .tl-body p { color: var(--brown-soft); font-style: italic; margin-top: .15rem; }
 
 /* ── location ── */
+/* 3: tighten the gap between The Celebration and Where to Find Us */
+.schedule { padding-bottom: clamp(1.5rem, 4vw, 2.75rem); }
+.location { padding-top: clamp(1.5rem, 4vw, 2.75rem); }
+
 .venue-name {
   font-family: var(--font-head);
   font-size: clamp(1.2rem, 4vw, 1.7rem);
@@ -882,14 +886,13 @@ body.locked { overflow: hidden; height: 100dvh; }
           <img class="paper-bg" src="paper-cutout.png" alt="" aria-hidden="true" />
           <div class="paper-content">
           <h2 class="section-title">The Celebration</h2>
-          <p class="section-sub">order of the evening</p>
+          <p class="section-sub">order of the day</p>
           <div class="timeline">
           <!-- EDIT ME: your schedule -->
-          <div class="timeline-item reveal"><div class="tl-time">5 PM</div><div class="tl-dot"></div><div class="tl-body"><h3>Guest Arrival</h3><p>Welcome drinks &amp; mingling</p></div></div>
-          <div class="timeline-item reveal"><div class="tl-time">6 PM</div><div class="tl-dot"></div><div class="tl-body"><h3>Nikkah Ceremony</h3><p>The sacred vows</p></div></div>
-          <div class="timeline-item reveal"><div class="tl-time">7 PM</div><div class="tl-dot"></div><div class="tl-body"><h3>Mocktail Hour</h3><p>Toasts &amp; photographs</p></div></div>
-          <div class="timeline-item reveal"><div class="tl-time">8 PM</div><div class="tl-dot"></div><div class="tl-body"><h3>Dinner</h3><p>A feast to remember</p></div></div>
-          <div class="timeline-item reveal"><div class="tl-time">9 PM</div><div class="tl-dot"></div><div class="tl-body"><h3>Celebration</h3><p>Dancing into the night</p></div></div>
+          <div class="timeline-item reveal"><div class="tl-dot"></div><div class="tl-body"><h3>Guest Arrival</h3><p>Refreshments &amp; warm welcomes</p></div></div>
+          <div class="timeline-item reveal"><div class="tl-dot"></div><div class="tl-body"><h3>Lunch</h3><p>Enjoy a delicious meal</p></div></div>
+          <div class="timeline-item reveal"><div class="tl-dot"></div><div class="tl-body"><h3>Photo Moments</h3><p>Creating memories together</p></div></div>
+          <div class="timeline-item reveal"><div class="tl-dot"></div><div class="tl-body"><h3>Celebration</h3><p>Laughter, conversations &amp; joyful moments</p></div></div>
           </div>
           </div>
         </div>
@@ -901,36 +904,11 @@ body.locked { overflow: hidden; height: 100dvh; }
       <div class="container narrow">
         <h2 class="section-title reveal">Where to Find Us</h2>
         <!-- EDIT ME: your venue -->
-        <p class="venue-name reveal d1">Islamic Center of Melville</p>
-        <p class="venue-address reveal d2">118 Old East Neck Road, Melville, NY 11747</p>
+        <p class="venue-name reveal d1">VP House</p>
+        <p class="venue-address reveal d2">Theru, Near Market, Kunhimangalam, Kannur</p>
         <!-- sepia line-art venue illustration, transparent PNG grounded on the cream -->
-        <img class="venue-illustration reveal d3" src="venue-illustration-web.png" alt="Illustration of the Islamic Center of Melville" />
-        <a class="btn-outline reveal d4" href="https://www.google.com/maps?q=118+Old+East+Neck+Road,+Melville,+NY+11747" target="_blank" rel="noopener">Get Directions</a>
-      </div>
-    </section>
-
-    <!-- ── GUEST NOTES ───────────────────────────────────────── -->
-    <section class="section notes">
-      <div class="container narrow">
-        <h2 class="section-title reveal">A Few Kind Notes</h2>
-        <div class="notes-grid">
-          <div class="note-card reveal d1">
-            <svg viewBox="0 0 48 48" class="note-icon" aria-hidden="true">
-              <rect x="8" y="18" width="32" height="24" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path d="M8 26h32M24 18v24" stroke="currentColor" stroke-width="2"/>
-              <path d="M24 18c-8 0-10-10-4-10s4 10 4 10zm0 0c8 0 10-10 4-10s-4 10-4 10z" fill="none" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <h3>Gifts</h3>
-            <p>Your presence is the greatest gift — no boxed gifts, please.</p>
-          </div>
-          <div class="note-card reveal d2">
-            <svg viewBox="0 0 48 48" class="note-icon" aria-hidden="true">
-              <path d="M18 6l6 6 6-6 4 8-6 6 4 22H16l4-22-6-6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-            </svg>
-            <h3>Dress Code</h3>
-            <p>Formal attire. We kindly ask guests to avoid deep red and maroon.</p>
-          </div>
-        </div>
+        <img class="venue-illustration reveal d3" src="venue-illustration-web.png" alt="Illustration of VP House" />
+        <a class="btn-outline reveal d4" href="https://maps.app.goo.gl/KJwfX5rMFdKZCUjB9" target="_blank" rel="noopener">Get Directions</a>
       </div>
     </section>
 
