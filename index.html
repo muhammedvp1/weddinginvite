@@ -477,8 +477,11 @@ body.locked { overflow: hidden; height: 100dvh; }
   .welcome-floral.left  { left: -7%; }
   .welcome-floral.right { right: -7%; }
 
-  /* 3: tighter countdown section */
+  /* 3: tighter, balanced countdown — neighbours' padding is what created the gaps */
+  .welcome { padding-bottom: 1.5rem; }        /* was ~64px -> shrinks the gap ABOVE the countdown */
   .countdown-section { padding-top: 1rem; padding-bottom: 1rem; }
+  .schedule { padding-top: 1.5rem; }          /* was ~64px -> shrinks the gap BELOW; matches welcome so it's even */
+  .schedule-paper { margin-top: 0; }          /* drop the paper's 3rem top margin so above/below are equal */
   .countdown { flex-wrap: nowrap; gap: .4rem; margin-top: 1rem; width: 100%; }
 
   /* 2: all four boxes on one row */
@@ -756,9 +759,58 @@ body.locked { overflow: hidden; height: 100dvh; }
   .reveal { transition-duration: .2s; }
 }
 
-  </style>
+  
+/* ── background-music mute toggle ── */
+.mute-btn {
+  position: fixed;
+  right: calc(1rem + env(safe-area-inset-right, 0px));
+  bottom: calc(1.1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 300;
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(166, 125, 43, .35);
+  background: rgba(249, 240, 224, .72);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  color: var(--gold-deep);
+  cursor: pointer;
+  box-shadow: 0 4px 14px -4px rgba(108, 81, 63, .45);
+  opacity: 0; pointer-events: none;             /* revealed once the invitation opens */
+  transition: opacity .6s ease, transform .25s ease, background .25s ease;
+}
+.mute-btn.visible { opacity: 1; pointer-events: auto; }
+.mute-btn:hover  { transform: scale(1.08); background: rgba(249, 240, 224, .95); }
+.mute-btn:active { transform: scale(.94); }
+.mute-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.mute-btn .ic { width: 22px; height: 22px; display: block; }
+.mute-btn .ic-off { display: none; }
+.mute-btn.muted .ic-on  { display: none; }
+.mute-btn.muted .ic-off { display: block; }
+@media (prefers-reduced-motion: reduce) {
+  .mute-btn { transition: opacity .3s ease; }
+  .mute-btn:hover, .mute-btn:active { transform: none; }
+}
+</style>
 </head>
 <body class="locked">
+
+  <!-- background music (starts on the envelope tap) -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="background-music.mp3" type="audio/mpeg" />
+  </audio>
+  <!-- always-visible mute / unmute toggle -->
+  <button id="muteBtn" class="mute-btn" type="button" aria-label="Mute background music" aria-pressed="false">
+    <svg class="ic ic-on" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M11 5 L6 9 H3 v6 h3 l5 4 Z" fill="currentColor" />
+      <path d="M15.4 8.9 a4.1 4.1 0 0 1 0 6.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+      <path d="M18 6.6 a7.4 7.4 0 0 1 0 10.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+    </svg>
+    <svg class="ic ic-off" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M11 5 L6 9 H3 v6 h3 l5 4 Z" fill="currentColor" />
+      <path d="M16 9.5 l5 5 M21 9.5 l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+    </svg>
+  </button>
+
 
   <!-- ════════════════════════════════════════════════════════════
        ENVELOPE INTRO — full-screen ivory envelope with embossed
@@ -936,6 +988,32 @@ const envHint = document.getElementById('envHint');
 const site = document.getElementById('site');
 let opened = false;
 
+// ── background music + mute toggle ──
+const bgMusic = document.getElementById('bgMusic');
+const muteBtn = document.getElementById('muteBtn');
+let audioStarted = false;
+function startMusic() {
+  if (audioStarted || !bgMusic) return;
+  audioStarted = true;
+  bgMusic.volume = 0.5;                 // gentle
+  const ap = bgMusic.play();
+  if (ap && ap.catch) ap.catch(() => {});
+}
+function revealMuteBtn() { if (muteBtn) muteBtn.classList.add('visible'); }
+if (muteBtn) {
+  muteBtn.addEventListener('click', (e) => {
+    e.stopPropagation();               // don't trigger the envelope open
+    bgMusic.muted = !bgMusic.muted;
+    muteBtn.classList.toggle('muted', bgMusic.muted);
+    muteBtn.setAttribute('aria-pressed', String(bgMusic.muted));
+    muteBtn.setAttribute('aria-label', bgMusic.muted ? 'Unmute background music' : 'Mute background music');
+    if (!bgMusic.muted) startMusic();  // unmuting is a user gesture — safe to start
+  });
+}
+// fallback: begin audio on the first interaction (covers the reduced-motion path)
+['pointerdown', 'keydown', 'touchstart'].forEach((ev) =>
+  document.addEventListener(ev, startMusic, { once: true, passive: true }));
+
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // reveal the invitation underneath (it is already rendered, just faded)
@@ -944,6 +1022,7 @@ function showSite() {
   site.classList.add('shown');
   site.setAttribute('aria-hidden', 'false');
   revealOnScroll();
+  revealMuteBtn();
 }
 
 if (reduceMotion) {
@@ -966,6 +1045,7 @@ if (reduceMotion) {
   function openInvitation() {
     if (opened) return;
     opened = true;                               // disable further taps
+    startMusic();                                // the tap gesture starts the music
     envHint.classList.add('hidden');
     envelopeScreen.style.cursor = 'default';
     try { envVideo.currentTime = 0; } catch (e) {}
