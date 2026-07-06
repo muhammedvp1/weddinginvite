@@ -30,7 +30,7 @@
   --maroon:      #5a0f1b;
   --maroon-deep: #43060f;
 
-  --font-head:   'Cinzel', serif;
+  --font-head:   'Ovo', serif;   /* repointed: non-heading labels use the body serif */
   --font-body:   'Ovo', serif;
   --font-script: 'Great Vibes', cursive;
 }
@@ -249,12 +249,12 @@ body.locked { overflow: hidden; height: 100dvh; }
   font-family: var(--font-script);
   font-weight: 400;
   font-size: clamp(3rem, 12vw, 6.2rem);
-  color: #C9A961;
+  color: var(--gold);
   line-height: 1.15;
   margin: 1rem 0;
   text-shadow: 0 1px 4px rgba(74, 48, 20, .45), 0 2px 16px rgba(255, 250, 244, .35);
 }
-.hero-names .amp { font-size: .55em; vertical-align: .18em; color: #b9954c; }
+.hero-names .amp { font-size: .55em; vertical-align: .18em; color: var(--gold-deep); }
 .hero-date {
   font-family: var(--font-head);
   font-size: clamp(1.05rem, 3.6vw, 1.5rem);
@@ -286,11 +286,13 @@ body.locked { overflow: hidden; height: 100dvh; }
 
 /* welcome paper renders as the full PNG in flow — uncropped, all four torn edges visible */
 .welcome-paper .paper-bg {
+  /* full image in flow: trimmed PNG has torn edges flush to its own edges, so at 98vw
+     the torn left/right edges reach the screen sides AND all four edges stay visible */
   position: relative; inset: auto;
-  display: block; width: 100%; height: auto;   /* natural aspect, nothing cropped */
-  object-fit: fill;                              /* n/a once height is auto; just not 'cover' */
+  display: block; width: 100%; height: auto;
+  object-fit: fill;
   filter: none;                                  /* no drop shadow */
-  -webkit-mask-image: none; mask-image: none;    /* no fade/crop — real edges show */
+  -webkit-mask-image: none; mask-image: none;    /* no fade/crop */
 }
 /* text sits centred on top of the full paper image */
 .welcome-paper .paper-content {
@@ -298,28 +300,31 @@ body.locked { overflow: hidden; height: 100dvh; }
   display: flex; flex-direction: column; justify-content: center;
   padding: clamp(30px, 5vw, 68px) clamp(48px, 9vw, 130px);
 }
-
+/* text sits centred on top of the full paper image */
 /* lift the section so the paper tucks up under the florals and overlaps the video */
 .welcome { margin-top: -92px; position: relative; z-index: 2; }
 
 /* welcome card: heading + paragraph, generous padding keeps torn edges clear of the text */
 .welcome-paper {
-  width: min(96vw, 4000px);
-  margin: 0 auto;
+  /* full-bleed breakout: escapes the centred .container width cap entirely */
+  width: 98vw;
+  margin-left: calc(50% - 49vw);
+  margin-right: calc(50% - 49vw);
 }
+/* text stays a comfortable centred column, not stretched to the edges */
+.welcome-paper .lead { max-width: 620px; margin-left: auto; margin-right: auto; }
 .welcome-paper .script { margin-top: 0; }
 
 /* floral drapes bridging the video seam onto the Assalamu Alaikum paper */
 .welcome-floral {
   position: absolute;
-  top: -26%;                 /* tops rise up over the paper edge; greenery drapes down onto it */
-  width: 40%;
-  max-width: 320px;
+  top: clamp(-172px, -15vw, -80px);   /* drapes down over the paper's top edge */
+  width: clamp(185px, 34vw, 375px);   /* ~24% larger corner cluster */
   z-index: 5;
   pointer-events: none;
 }
-.welcome-floral.left  { left: -13%; }
-.welcome-floral.right { right: -13%; transform: scaleX(-1); }   /* mirror; own transform, no conflict with the img's pulse */
+.welcome-floral.left  { left: -3%; }                          /* pushed into the far top-left corner */
+.welcome-floral.right { right: -3%; transform: scaleX(-1); }  /* mirror; far top-right corner */
 .floral-img {
   display: block; width: 100%; height: auto;
   user-select: none; -webkit-user-drag: none;
@@ -337,8 +342,9 @@ body.locked { overflow: hidden; height: 100dvh; }
 
 /* schedule card: timeline aspect (~1.23) already matches the paper (~1.29) */
 .schedule-paper {
-  width: min(96vw, 1000px);
-  margin: 3rem auto 0;
+  /* full-bleed breakout: escapes the centred .container width cap entirely */
+  width: 98vw;
+  margin: 3rem calc(50% - 49vw) 0;
   padding: clamp(44px, 6vw, 78px) clamp(50px, 8vw, 104px);
 }
 .schedule-paper .timeline { margin-top: 1.8rem; max-width: 560px; margin-left: auto; margin-right: auto; }
@@ -387,12 +393,12 @@ body.locked { overflow: hidden; height: 100dvh; }
 
 /* ── shared headings ── */
 .section-title {
-  font-family: var(--font-head);
-  font-weight: 500;
-  font-size: clamp(1.6rem, 5vw, 2.4rem);
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--brown);
+  font-family: var(--font-script);   /* same script as "Assalamu Alaikum" */
+  font-weight: 400;
+  font-size: clamp(2rem, 6.5vw, 3rem);
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--gold);                /* same gold as "Assalamu Alaikum" */
 }
 .section-sub {
   font-style: italic;
@@ -413,6 +419,8 @@ body.locked { overflow: hidden; height: 100dvh; }
 /* ── countdown ── */
 .countdown-section {
   background: var(--cream);   /* plain cream gap between the two torn-edged papers */
+  padding-top: clamp(1.5rem, 4vw, 2.75rem);
+  padding-bottom: clamp(1.5rem, 4vw, 2.75rem);
 }
 .countdown {
   display: flex; align-items: center; justify-content: center;
@@ -506,6 +514,14 @@ body.locked { overflow: hidden; height: 100dvh; }
   box-shadow: 0 18px 44px -20px rgba(108, 81, 63, .45);
 }
 .map-frame iframe { display: block; width: 100%; height: clamp(260px, 44vw, 380px); border: 0; }
+/* sepia venue illustration — blends into the cream, softly grounded */
+.venue-illustration {
+  display: block;
+  width: min(90%, 640px);
+  height: auto;
+  margin: clamp(1.6rem, 4vw, 2.8rem) auto clamp(.4rem, 1.5vw, 1rem);
+  filter: drop-shadow(0 16px 16px rgba(96, 70, 32, .14));
+}
 
 .btn-outline, .btn-solid {
   display: inline-block;
@@ -791,7 +807,7 @@ body.locked { overflow: hidden; height: 100dvh; }
       <div class="hero-inner">
         <p class="hero-eyebrow reveal">The Wedding Of</p>
         <!-- EDIT ME: your names -->
-        <h1 class="hero-names reveal d1">Afeefa <span class="amp">&amp;</span> Muhammed</h1>
+        <h1 class="hero-names reveal d1">Afeefa<br /><span class="amp">&amp;</span><br />Muhammed</h1>
         <div class="gold-rule reveal d2"><span></span><i>❦</i><span></span></div>
         <!-- EDIT ME: your wedding date -->
         <p class="hero-date reveal d3">27 . 09 . 2026</p>
@@ -804,7 +820,7 @@ body.locked { overflow: hidden; height: 100dvh; }
     <section class="section welcome">
       <div class="container narrow">
         <div class="paper-panel welcome-paper reveal d1">
-          <img class="paper-bg" src="paper-cutout1.png" alt="" aria-hidden="true" />
+          <img class="paper-bg" src="paper-cutout1-trim.png" alt="" aria-hidden="true" />
           <div class="paper-content">
             <h2 class="script">Assalamu Alaikum</h2>
             <p class="lead">
@@ -823,7 +839,6 @@ body.locked { overflow: hidden; height: 100dvh; }
     <section class="section countdown-section">
       <div class="container">
         <h2 class="section-title reveal">Counting Down</h2>
-        <p class="section-sub reveal d1">until we say “Qubool Hai”</p>
         <div class="countdown reveal d2" id="countdown">
           <div class="count-box"><span id="cd-days">–</span><small>Days</small></div>
           <div class="count-sep">:</div>
@@ -864,14 +879,8 @@ body.locked { overflow: hidden; height: 100dvh; }
         <!-- EDIT ME: your venue -->
         <p class="venue-name reveal d1">Islamic Center of Melville</p>
         <p class="venue-address reveal d2">118 Old East Neck Road, Melville, NY 11747</p>
-        <div class="map-frame reveal d3">
-          <!-- EDIT ME: replace the q= address with your venue -->
-          <iframe
-            title="Venue map"
-            src="https://www.google.com/maps?q=118+Old+East+Neck+Road,+Melville,+NY+11747&output=embed"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+        <!-- sepia line-art venue illustration, transparent PNG grounded on the cream -->
+        <img class="venue-illustration reveal d3" src="venue-illustration-web.png" alt="Illustration of the Islamic Center of Melville" />
         <a class="btn-outline reveal d4" href="https://www.google.com/maps?q=118+Old+East+Neck+Road,+Melville,+NY+11747" target="_blank" rel="noopener">Get Directions</a>
       </div>
     </section>
