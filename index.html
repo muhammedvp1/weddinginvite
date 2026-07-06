@@ -314,6 +314,13 @@ body.locked { overflow: hidden; height: 100dvh; }
 /* text stays a comfortable centred column, not stretched to the edges */
 .welcome-paper .lead { max-width: 620px; margin-left: auto; margin-right: auto; }
 .welcome-paper .script { margin-top: 0; }
+.bismillah {
+  direction: rtl;
+  font-size: clamp(1.15rem, 4.2vw, 1.7rem);
+  line-height: 1.9;
+  color: var(--gold-deep);
+  margin: 0 0 .7rem;
+}
 
 /* floral drapes bridging the video seam onto the Assalamu Alaikum paper */
 .welcome-floral {
@@ -848,8 +855,7 @@ body.locked { overflow: hidden; height: 100dvh; }
         <h1 class="hero-names reveal d1">Afeefa<br /><span class="amp">&amp;</span><br />Muhammed</h1>
         <div class="gold-rule reveal d2"><span></span><i>❦</i><span></span></div>
         <!-- EDIT ME: your wedding date -->
-        <p class="hero-date reveal d3">27 . 09 . 2026</p>
-        <p class="hero-tagline reveal d4">Two souls · One destiny<br/>A lifetime written by Allah</p>
+        <p class="hero-date reveal d3">15 . 08 . 2026</p>
       </div>
 
     </section>
@@ -860,10 +866,11 @@ body.locked { overflow: hidden; height: 100dvh; }
         <div class="paper-panel welcome-paper reveal d1">
           <img class="paper-bg" src="paper-cutout1-trim.png" alt="" aria-hidden="true" />
           <div class="paper-content">
-            <h2 class="script">Assalamu Alaikum</h2>
+            <p class="bismillah">بِسْمِ ٱللّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+            <h2 class="script">Two Souls<br />One destiny<br />A Lifetime written by Allah</h2>
             <p class="lead">
-              With hearts full of gratitude, we invite you to join us for an evening of
-              love, laughter, duas, and unforgettable memories as we begin our new life together.
+              Dear Friends and Family<br />
+              Join us for an evening of love, laughter, duas, and unforgettable memories as we begin our forever.
             </p>
           </div>
           <!-- floral drapes straddling the video/paper seam, hiding it -->
@@ -965,7 +972,7 @@ body.locked { overflow: hidden; height: 100dvh; }
         <p class="closing-line reveal d1">With love and duas,</p>
         <!-- EDIT ME: your names -->
         <p class="closing-names script reveal d2">Afeefa &amp; Muhammed</p>
-        <p class="closing-date reveal d3">27 September 2026</p>
+        <p class="closing-date reveal d3">15 August 2026</p>
       </div>
     </footer>
   </main>
@@ -975,7 +982,7 @@ body.locked { overflow: hidden; height: 100dvh; }
    EDIT ME: your wedding date & time (used by the countdown)
    Format: year, month name, day, time
    ══════════════════════════════════════════════════════════════ */
-const WEDDING_DATE = new Date('2026-09-27T17:00:00');
+const WEDDING_DATE = new Date('2026-08-15T17:00:00');
 
 /* ──────────────────────────────────────────────────────────────
    1. ENVELOPE OPENING SEQUENCE
