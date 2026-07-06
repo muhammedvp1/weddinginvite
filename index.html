@@ -684,7 +684,17 @@ body.locked { overflow: hidden; height: 100dvh; }
   color: var(--gold-deep);
 }
 .rsvp-form.sent .rsvp-thanks { display: block; animation: fade-down .8s ease; }
-.rsvp-form.sent .btn-solid { display: none; }
+.rsvp-form.sent .btn-solid,
+.rsvp-form.sent label { display: none; }   /* message replaces the form on success */
+.rsvp-error {
+  display: none;
+  text-align: center;
+  margin-top: 1.1rem;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--maroon);
+}
+.rsvp-form.error .rsvp-error { display: block; animation: fade-down .6s ease; }
 
 /* ── closing ── */
 .closing {
@@ -924,28 +934,23 @@ body.locked { overflow: hidden; height: 100dvh; }
           <span class="rsvp-seal-label">tap to respond</span>
         </button>
 
-        <form class="rsvp-form" id="rsvpForm" aria-hidden="true">
+        <form class="rsvp-form" id="rsvpForm" action="https://formspree.io/f/xpqgndag" method="POST" aria-hidden="true">
           <label>Your name
-            <input type="text" name="name" placeholder="Full name" required />
+            <input type="text" name="Name" placeholder="Full name" required />
           </label>
           <label>Will you attend?
-            <select name="attending" required>
+            <select name="Attending" required>
               <option value="" disabled selected>Please choose…</option>
-              <option value="yes">Joyfully accept</option>
-              <option value="no">Regretfully decline</option>
+              <option value="Joyfully accept">Joyfully accept</option>
+              <option value="Regretfully decline">Regretfully decline</option>
             </select>
           </label>
           <label>Number of guests
-            <input type="number" name="guests" min="1" max="10" placeholder="e.g. 2" />
-          </label>
-          <label>Song request
-            <input type="text" name="song" placeholder="A song that gets you dancing" />
-          </label>
-          <label>Children’s names &amp; ages
-            <textarea name="children" rows="2" placeholder="If any little ones are joining"></textarea>
+            <input type="number" name="Guests" min="1" max="10" placeholder="e.g. 2" />
           </label>
           <button type="submit" class="btn-solid">Send RSVP</button>
-          <p class="rsvp-thanks" id="rsvpThanks">Thank you! We can’t wait to celebrate with you. ♥</p>
+          <p class="rsvp-thanks" id="rsvpThanks">Thank you — your RSVP has been received 💛</p>
+          <p class="rsvp-error" id="rsvpError">Something went wrong — please try again.</p>
         </form>
       </div>
     </section>
@@ -1102,12 +1107,33 @@ rsvpSeal.addEventListener('click', () => {
   rsvpSeal.setAttribute('aria-expanded', 'true');
 });
 
-/* EDIT ME: this form currently just shows a thank-you message.
-   To collect real responses, point it at a Google Form, Formspree
-   (https://formspree.io), or your own endpoint inside this handler. */
-rsvpForm.addEventListener('submit', (e) => {
+/* RSVP submits to Formspree via AJAX so we can show an inline confirmation
+   instead of redirecting to Formspree's default page. */
+rsvpForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  rsvpForm.classList.add('sent');
+  const btn = rsvpForm.querySelector('button[type="submit"]');
+  const original = btn.textContent;
+  rsvpForm.classList.remove('error');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  try {
+    const res = await fetch(rsvpForm.action, {
+      method: 'POST',
+      body: new FormData(rsvpForm),
+      headers: { Accept: 'application/json' },
+    });
+    if (res.ok) {
+      rsvpForm.classList.add('sent');        // message replaces the form
+    } else {
+      rsvpForm.classList.add('error');
+      btn.disabled = false;
+      btn.textContent = original;
+    }
+  } catch (err) {
+    rsvpForm.classList.add('error');
+    btn.disabled = false;
+    btn.textContent = original;
+  }
 });
 
 </script>
