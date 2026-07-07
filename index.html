@@ -68,6 +68,14 @@ body.locked { overflow: hidden; height: 100dvh; }
   object-fit: cover; object-position: center;
   background: #ede6d8;
 }
+.env-poster {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  z-index: 1;                 /* sits over the video until the first frame renders */
+  transition: opacity .25s ease;
+}
+.env-poster.hidden { opacity: 0; }
 .envelope-screen:focus-visible { outline: 3px solid var(--gold-bright); outline-offset: -6px; }
 
 /* paper base + cotton grain */
@@ -826,6 +834,8 @@ body.locked { overflow: hidden; height: 100dvh; }
            poster="envelope-open-poster.jpg" aria-hidden="true">
       <source src="envelope-open.mp4" type="video/mp4" />
     </video>
+    <!-- first-frame still held on top until the video actually paints a frame (no blank flash) -->
+    <img class="env-poster" id="envPoster" src="envelope-open-poster.jpg" alt="" aria-hidden="true" />
     <p class="env-hint" id="envHint">Tap to Open</p>
   </div>
 
@@ -834,7 +844,7 @@ body.locked { overflow: hidden; height: 100dvh; }
     <!-- ── HERO ──────────────────────────────────────────────── -->
     <section class="hero">
       <!-- full-screen looping background video (muted + playsinline for mobile autoplay) -->
-      <video class="hero-video" id="heroVideo" autoplay loop muted playsinline
+      <video class="hero-video" id="heroVideo" loop muted playsinline
              preload="auto" poster="invitation-bg-poster.jpg" aria-hidden="true">
         <source src="invitation-bg.mp4" type="video/mp4" />
       </video>
@@ -985,6 +995,8 @@ const WEDDING_DATE = new Date('2026-08-15T17:00:00');
 const envelopeScreen = document.getElementById('envelopeScreen');
 const envVideo = document.getElementById('envVideo');
 const envHint = document.getElementById('envHint');
+const envPoster = document.getElementById('envPoster');
+const heroVideo = document.getElementById('heroVideo');
 const site = document.getElementById('site');
 let opened = false;
 
@@ -1023,6 +1035,12 @@ function showSite() {
   site.setAttribute('aria-hidden', 'false');
   revealOnScroll();
   revealMuteBtn();
+  // swan video plays from the very start as the welcome page is revealed
+  if (heroVideo) {
+    try { heroVideo.currentTime = 0; } catch (e) {}
+    const hp = heroVideo.play();
+    if (hp && hp.catch) hp.catch(() => {});
+  }
 }
 
 if (reduceMotion) {
@@ -1049,8 +1067,12 @@ if (reduceMotion) {
     envHint.classList.add('hidden');
     envelopeScreen.style.cursor = 'default';
     try { envVideo.currentTime = 0; } catch (e) {}
+    const hidePoster = () => { if (envPoster) envPoster.classList.add('hidden'); };
+    envVideo.addEventListener('timeupdate', hidePoster, { once: true });  // fires after a frame is painted
+    envVideo.addEventListener('playing', hidePoster, { once: true });
     const p = envVideo.play();
-    if (p && p.catch) p.catch(() => startFade()); // if playback is blocked, just reveal the site
+    if (p && p.catch) p.catch(() => { hidePoster(); startFade(); }); // if blocked, drop poster + reveal site
+    setTimeout(hidePoster, 600);                                     // safety fallback
   }
 
   // trigger the fade near the 7s mark
