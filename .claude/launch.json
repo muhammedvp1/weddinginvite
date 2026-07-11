@@ -2,10 +2,16 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "wedding-site",
+      "name": "wedding-invite",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "exec python3 -m http.server \"$PORT\""],
+      "autoPort": true
+    },
+    {
+      "name": "royal-unfold",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4173"],
-      "port": 4173
+      "runtimeArgs": ["-m", "http.server", "4174", "--directory", "royal-unfold"],
+      "port": 4174
     }
   ]
 }
